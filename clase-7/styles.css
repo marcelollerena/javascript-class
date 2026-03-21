@@ -40,7 +40,8 @@ header {
   margin-bottom: 30px;
 }
 
-.nav-container span:nth-child(1) {
+.default-btn {
+  font-size: 16px;
   font-weight: 600;
   padding: 10px;
   border-radius: 10px;
@@ -100,6 +101,7 @@ header {
 .cart-modal {
   display: none;
   position: absolute;
+  max-width: 200px;
   width: 160px;
   height: 200px;
   right: 10px;
@@ -112,9 +114,32 @@ header {
   padding: 10px;
 }
 
-.cart-item {
-  align-items: center;
+.cart-modal-products {
+  max-height: 140px;
+
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.cart-empty {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  opacity: 0.4;
+}
+
+.cart-item {
+  display: grid;
+  align-items: center;
+  justify-items: start;
+  grid-template-columns: 1fr 80px 1fr;
   gap: 10px;
 }
 
@@ -127,4 +152,16 @@ header {
 .cart-item p {
   font-size: 14px;
   text-transform: capitalize;
+}
+
+.cart-item p:last-child {
+  opacity: 0.4;
+}
+
+.card-modal-btn {
+  display: block;
+  text-align: center;
+  margin-top: 4px;
+  text-decoration: none;
+  color: black;
 }

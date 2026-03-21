@@ -89,11 +89,15 @@ const products = [
   },
 ];
 
-let cart = [];
+const getCartItems = localStorage.getItem("user-cart");
+let cart = getCartItems ? JSON.parse(getCartItems) : [];
 
 const productsContainer = document.getElementById("products-container");
 const cartModal = document.getElementById("cart-modal");
 const cartButton = document.getElementById("cart");
+
+const cartModalProducts = document.getElementById("cart-modal-products");
+const cartModalBtn = document.getElementById("cart-modal-btn");
 
 cartButton.addEventListener("click", () => {
   cartModal.style.display === "block"
@@ -120,7 +124,38 @@ function displayProducts() {
 
 function addToCart(productId) {
   const product = products.find((product) => product.id === productId);
-  cart.push(product);
+  const productExists = cart.find((product) => product.id === productId);
+
+  if (!productExists) {
+    cart.push({ ...product, quantity: 1 });
+  } else {
+    productExists.quantity += 1;
+  }
+
+  localStorage.setItem("user-cart", JSON.stringify(cart));
+
+  displayCart();
+}
+
+function displayCart() {
+  if (cart.length === 0) {
+    cartModalProducts.innerHTML = `<p class="cart-empty">Your cart is empty</p>`;
+  } else {
+    cartModalProducts.innerHTML = cart
+      .map(
+        (cart) => `
+            <div class="cart-item">
+              <img src="${cart.image}" alt="${cart.description}" />
+              <p>${cart.name}</p>
+              <p>${cart.quantity}</p>
+            </div>
+      `,
+      )
+      .join("");
+
+    cartModalBtn.innerHTML = `<a href="./pages/cart-summary/cart-summary.html" class="default-btn card-modal-btn">Go Cart</a>`;
+  }
 }
 
 displayProducts();
+displayCart();
